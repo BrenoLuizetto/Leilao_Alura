@@ -8,13 +8,23 @@
 
 import Foundation
 
+enum ErroAvaliador:Error{
+    case LeilaoSemLance(String)
+}
+
 class Avaliador {
     
     private var maiorDeTodos = Double.leastNonzeroMagnitude
     private var menorDeTodos = Double.greatestFiniteMagnitude
     private var maiores : [Lance] = []
     
-    func avalia(leilao:Leilao) {
+    func avalia(leilao:Leilao) throws {
+     
+        
+        if leilao.lances?.count == 0{
+            throw ErroAvaliador.LeilaoSemLance("nao é possivel avaliar um leilao sem lances")
+        }
+        
         guard let lances = leilao.lances else { return }
         
         for lance in lances {
